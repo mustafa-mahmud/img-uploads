@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Image Uploads</title>
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+		<link rel="stylesheet" href="css/bootstrap.css" />
+
+		<link rel="stylesheet" href="css/main.css" />
+		<script defer type="module" src="js/app.js"></script>
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-8 col-12">
+					<h3 class="bg-dark text-white text-center py-3">Your Information</h3>
+					<p class="msg">Your message here...</p>
+				</div>
+			</div>
+			<form class="row justify-content-center insert" enctype="multipart/form-data">
+				<div class="col-md-8 col-12 row">
+					<div class="col-md-6 col-12 mt-4">
+						<input type="text" class="form-control" placeholder="Name..." name="name" id="name">
+					</div>
+					<div class="col-md-6 col-12 mt-4">
+						<input type="text" class="form-control" placeholder="Age..." name="age" id="age">
+					</div>
+					<div class="col-md-6 col-12 mt-4">
+						<input type="password" class="form-control" placeholder="Password..." name="password" id="password">
+					</div>
+					<div class="col-md-6 mt-4 col-12">
+						<div class="custom-file">
+							<input type="file" class="img-file" name="img-file" id="img-file">
+						</div>
+					</div>
+					<div class="col-12 mt-4">
+						<button class="btn btn-success w-100">Insert Me</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-8 col-12 mt-5 table-responsive">
+					<table class="table align-middle table-bordered border-primary text-white text-center">
+						<thead>
+							<th class="border-bottom border-bottom-white">Sl.</th>
+							<th class="border-bottom border-bottom-white">Name</th>
+							<th class="border-bottom border-bottom-white">Age</th>
+							<th class="border-bottom border-bottom-white">Image</th>
+							<th class="border-bottom border-bottom-white">Action</th>
+						</thead>
+						<tbody>
+							<tr>
+								<td>1</td>
+								<td>Johnsadfasd</td>
+								<td>25</td>
+								<td>
+									<img width="50" height="30" src="uploads/adil.jpg" alt="adil" />
+								</td>
+								<td>
+									<span class="change-password">Change Password</span> |
+									<span class="edit">Edit</span> |
+									<span class="delete">Delete</span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

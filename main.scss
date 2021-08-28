@@ -1,0 +1,28 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html {
+	font-size: 62.5%;
+}
+
+body {
+	font-size: 1.6rem;
+}
+
+.change-password,
+.edit,
+.delete {
+	cursor: pointer;
+
+	&:hover {
+		color: orange;
+	}
+}
+
+.msg {
+	height: 25px;
+	color: transparent;
+}
