@@ -15,6 +15,7 @@ body {
 .change-password,
 .edit,
 .delete {
+	text-decoration: underline;
 	cursor: pointer;
 
 	&:hover {
