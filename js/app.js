@@ -6,6 +6,7 @@ import {
   passwordValidation,
   imageValidation as imgValidation,
   message,
+  clearAll,
 } from './form-validation.js';
 
 const form = document.querySelector('form');
@@ -29,6 +30,26 @@ function formValidation(e) {
     imgValidation(imgFile, inputFile)
   ) {
     message('green', 'Everything is okay, Please wait...');
+    const formData = new FormData(form);
+
+    if (form.classList.contains('insert')) insertData(formData);
+  }
+}
+
+async function insertData(datas) {
+  const res = await fetch('./php/insert.php', {
+    method: 'post',
+    body: datas,
+  });
+
+  const data = await res.text();
+
+  console.log(data);
+  if (data.includes('successfully')) {
+    clearAll(inputName, inputAge, inputPassword, inputFile);
+    message('green', 'Inserted Successfully');
+  } else {
+    message('red', 'Something went wrong, Please try again...');
   }
 }
 

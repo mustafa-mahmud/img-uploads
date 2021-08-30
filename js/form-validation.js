@@ -47,7 +47,7 @@ function imageValidation(img, input) {
   const validType = ['jpeg', 'jpg', 'png', 'gif'];
 
   if (validType.includes(type)) {
-    if (size < 300000) {
+    if (size < 3000000) {
       input.style.border = 'none';
       return true;
     } else {
@@ -71,10 +71,15 @@ function message(color, msg, input = null) {
   }, 2000);
 }
 
+function clearAll(...inputs) {
+  inputs.forEach((input) => (input.value = ''));
+}
+
 export {
   nameValidation,
   ageValidation,
   passwordValidation,
   imageValidation,
   message,
+  clearAll,
 };
