@@ -45,7 +45,6 @@ async function insertData(datas) {
 
   const data = await res.text();
 
-  console.log(data);
   if (data.includes('successfully')) {
     clearAll(inputName, inputAge, inputPassword, inputFile);
     message('green', 'Inserted Successfully');
@@ -59,7 +58,6 @@ async function read() {
   const res = await fetch('./php/read.php');
   const data = await res.json();
 
-  console.log(data);
   if (data) {
     displayUI(data);
   }
@@ -86,6 +84,37 @@ function displayUI(datas) {
 
     tbodyEl.insertAdjacentHTML('afterbegin', html);
   });
+
+  const dels = tbodyEl.querySelectorAll('.delete');
+
+  dels.forEach((del) => del.addEventListener('click', idCheck));
+}
+
+function idCheck(e) {
+  const user = confirm('Are your sure to delete?');
+
+  if (!user) return;
+
+  const id = e.target.closest('tr').id;
+  if (id) {
+    deleteUser(id);
+  }
+}
+
+async function deleteUser(id) {
+  const res = await fetch('./php/delete.php', {
+    method: 'post',
+    body: id,
+  });
+
+  const data = await res.text();
+
+  if (data.includes('successfully')) {
+    message('green', 'Delete Successfully');
+    read();
+  } else {
+    message('red', 'Something wrong,Please try again...');
+  }
 }
 
 /////////////////
