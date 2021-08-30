@@ -14,6 +14,7 @@ const inputName = document.querySelector('input[name="name"]');
 const inputAge = document.querySelector('input[name="age"]');
 const inputPassword = document.querySelector('input[name="password"]');
 const inputFile = document.querySelector('input[name="img-file"]');
+const table = document.querySelector('table');
 const tbodyEl = document.querySelector('tbody');
 
 function formValidation(e) {
@@ -58,12 +59,18 @@ async function read() {
   const res = await fetch('./php/read.php');
   const data = await res.json();
 
-  if (data) {
+  if (!data) {
+    table.style.display = 'none';
+    return;
+  }
+
+  if (data.length) {
     displayUI(data);
   }
 }
 
 function displayUI(datas) {
+  table.style.display = 'table';
   tbodyEl.innerHTML = '';
   datas.forEach((el, ind) => {
     const html = `
@@ -96,19 +103,21 @@ function idCheck(e) {
   if (!user) return;
 
   const id = e.target.closest('tr').id;
+  const src = e.target.closest('tr').querySelector('img').getAttribute('src');
+
   if (id) {
-    deleteUser(id);
+    deleteUser(id, src);
   }
 }
 
-async function deleteUser(id) {
+async function deleteUser(id, src) {
   const res = await fetch('./php/delete.php', {
     method: 'post',
-    body: id,
+    body: JSON.stringify({ id, img: src }),
   });
 
   const data = await res.text();
-
+  console.log(data);
   if (data.includes('successfully')) {
     message('green', 'Delete Successfully');
     read();

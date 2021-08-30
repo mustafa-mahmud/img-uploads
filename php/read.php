@@ -8,6 +8,8 @@ if (isset($_GET)) {
 
   if ($stmt->rowCount()) {
     echo json_encode($stmt->fetchAll());
+  } else {
+    echo 0;
   }
 }
 ?>

@@ -2,7 +2,10 @@
 require_once 'db.php';
 
 if (isset($_POST)) {
-  $id = json_decode(file_get_contents('php://input'));
+  $idSrc = json_decode(file_get_contents('php://input'));
+
+  $id = $idSrc->id;
+  $img = '../' . $idSrc->img;
 
   $sql = "DELETE FROM users1 WHERE id=:id";
   $stmt = $conn->prepare($sql);
@@ -10,6 +13,7 @@ if (isset($_POST)) {
 
   if ($stmt->rowCount()) {
     echo 'Deleted successfully';
+    unlink($img);
   } else {
     echo 'Something wrong';
   }
