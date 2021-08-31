@@ -3,10 +3,10 @@ require_once 'db.php';
 require_once 'form-validation.php';
 
 if (isset($_POST)) {
-  $name = $_POST['name'];
-  $age = $_POST['age'];
-  $password = $_POST['password'];
-  $img = $_FILES['img-file']['size'] ? $_FILES['img-file'] : false;
+  $name = $_POST['insert-name'];
+  $age = $_POST['insert-age'];
+  $password = $_POST['insert-password'];
+  $img = $_FILES['insert-img-file']['size'] ? $_FILES['insert-img-file'] : false;
 
   if (nameValidation($name) && ageValidaion($age) && passValidation($password) && imgValidation($img)) {
     $sql = "INSERT INTO users1 (name,age,password,img) VALUES(:name,:age,:password,:image)";

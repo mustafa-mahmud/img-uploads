@@ -12,10 +12,10 @@ import {
 //Insert
 const insertForm = document.querySelector('.insert-form');
 const editForm = document.querySelector('.edit-form');
-const inputName = document.querySelector('input[name="name"]');
-const inputAge = document.querySelector('input[name="age"]');
-const inputPassword = document.querySelector('input[name="password"]');
-const inputFile = document.querySelector('input[name="img-file"]');
+const inputName = document.querySelector('input[name="insert-name"]');
+const inputAge = document.querySelector('input[name="insert-age"]');
+const inputPassword = document.querySelector('input[name="insert-password"]');
+const inputFile = document.querySelector('input[name="insert-img-file"]');
 
 //Table
 const table = document.querySelector('table');
@@ -25,15 +25,23 @@ const tbodyEl = document.querySelector('tbody');
 const editInputName = document.querySelector('input[name="edit-name"]');
 const editInputAge = document.querySelector('input[name="edit-age"]');
 const editInputImg = document.querySelector('input[name="edit-img-file"]');
-const cancelBtn = document.querySelector('.cancel-btn');
-const editBtn = document.querySelector('.edit-btn');
+const cancelBtns = document.querySelectorAll('.cancel-btn');
 
 //Change Password
 const changePassForm = document.querySelector('.pass-change-form');
+const oldPassInput = document.querySelector('input[name="old-password"]');
+const newPassInput = document.querySelector('input[name="new-password"]');
 
 //Eye
 const openEye = document.querySelectorAll('.open-eye');
 const closeEye = document.querySelectorAll('.close-eye');
+
+//Show Single User
+const showMeBtn = document.querySelector('.ck-me');
+const ckMeContainer = document.querySelector('.ck-me-container');
+const meForm = document.querySelector('.me-form');
+const showMeMsg = document.querySelector('.show-me-msg');
+const userResultEl = document.querySelector('.user-result');
 
 function insertValidation(e) {
   e.preventDefault();
@@ -120,9 +128,20 @@ function displayUI(datas) {
 }
 
 function passCheck(e) {
+  oldPassInput.value = newPassInput.value = '';
+
+  window.changePassId = e.target.closest('tr').id;
   insertForm.style.display = 'none';
   editForm.style.display = 'none';
   changePassForm.style.display = 'flex';
+
+  colorTdBorder(e.target.closest('tr'));
+}
+
+function defaultFormShow() {
+  insertForm.style.display = 'flex';
+  editForm.style.display = 'none';
+  changePassForm.style.display = 'none';
 }
 
 function idCheck(e) {
@@ -140,6 +159,7 @@ function idCheck(e) {
 
 function editCheck(e) {
   insertForm.style.display = 'none';
+  changePassForm.style.display = 'none';
   editForm.style.display = 'flex';
 
   window.targetTr = e.target.closest('tr');
@@ -149,13 +169,17 @@ function editCheck(e) {
   window.editId = +targetTr.id;
 
   clearBorder();
+  colorTdBorder(targetTr);
+  display4Edit(userName, age);
+}
 
-  targetTr.querySelectorAll('td').forEach((td) => {
+function colorTdBorder(el) {
+  clearBorder();
+
+  el.querySelectorAll('td').forEach((td) => {
     td.style.borderTop = '1px solid red';
     td.style.borderBottom = '1px solid red';
   });
-
-  display4Edit(userName, age);
 }
 
 function clearBorder() {
@@ -180,6 +204,7 @@ async function deleteUser(id, src) {
   if (data.includes('successfully')) {
     message('green', 'Delete Successfully');
     read();
+    defaultFormShow();
   } else {
     message('red', 'Something wrong,Please try again...');
   }
@@ -188,10 +213,11 @@ async function deleteUser(id, src) {
 function cancelEdit(e = null) {
   e?.preventDefault();
 
-  insertForm.style.display = 'flex';
-  editForm.style.display = 'none';
-
   editInputName.value = editInputAge.value = editInputImg.value = '';
+  oldPassInput.value = newPassInput.value = '';
+
+  clearBorder();
+  defaultFormShow();
 }
 
 function editValidation(e) {
@@ -224,10 +250,10 @@ async function editData(datas) {
   });
 
   const data = await res.text();
-  console.log(data);
 
   if (data.includes('successfully')) {
     cancelEdit();
+
     setTimeout(() => {
       read();
     }, 1500);
@@ -236,8 +262,42 @@ async function editData(datas) {
   }
 }
 
+function passValid(e) {
+  e.preventDefault();
+
+  const oldPass = oldPassInput.value.trim();
+  const newPass = newPassInput.value.trim();
+
+  if (
+    passwordValidation(oldPass, oldPassInput) &&
+    passwordValidation(newPass, newPassInput)
+  ) {
+    changePass();
+  }
+}
+
+async function changePass() {
+  const formData = new FormData(changePassForm);
+  formData.append('id', changePassId);
+
+  const res = await fetch('./php/change-pass.php', {
+    method: 'post',
+    body: formData,
+  });
+
+  const data = await res.text();
+
+  if (data.includes('successfully')) {
+    message('green', 'Password changed successfully');
+    oldPassInput.value = newPassInput.value = '';
+    clearBorder();
+    defaultFormShow();
+  } else {
+    message('red', 'Old password is wrong! Please try again.');
+  }
+}
+
 function eyeToggle(e) {
-  console.log(123);
   const target = e.target.closest('.pass');
   target.classList.toggle('show');
 
@@ -248,10 +308,70 @@ function eyeToggle(e) {
   }
 }
 
+function showUserBox() {
+  ckMeContainer.classList.toggle('show');
+
+  if (!ckMeContainer.classList.contains('show')) {
+    userResultEl.style.display = 'none';
+  }
+}
+
+async function showUser(e) {
+  e.preventDefault();
+
+  const formData = new FormData(meForm);
+  const res = await fetch('./php/single-user.php', {
+    method: 'post',
+    body: formData,
+  });
+
+  const data = await res.text();
+
+  if (!data.includes('wrong')) {
+    const parse = JSON.parse(data);
+    displayUserUI(parse);
+    document.querySelector('input[name="user-name"]').value =
+      document.querySelector('input[name="user-password"]').value = '';
+  } else {
+    userResultEl.style.display = 'none';
+    showUserMsg('red', 'Name or Password is wrong, Please try again.');
+  }
+}
+
+function displayUserUI(data) {
+  userResultEl.style.display = 'block';
+
+  userResultEl.querySelector('img').src = `./uploads/${data.img}`;
+  userResultEl.querySelector('.name span').textContent = data.name;
+  userResultEl.querySelector('.age span').textContent = data.age;
+}
+
+function showUserMsg(color, msg) {
+  showMeMsg.style.color = color;
+  showMeMsg.textContent = msg;
+
+  setTimeout(() => {
+    showMeMsg.style.color = 'transparent';
+    showMeMsg.textContent = '';
+  }, 2000);
+}
+
 /////////////////
 read();
 insertForm.addEventListener('submit', insertValidation);
-cancelBtn.addEventListener('click', cancelEdit);
 editForm.addEventListener('submit', editValidation);
 openEye.forEach((eye) => eye.addEventListener('click', eyeToggle));
 closeEye.forEach((eye) => eye.addEventListener('click', eyeToggle));
+changePassForm.addEventListener('submit', passValid);
+showMeBtn.addEventListener('click', showUserBox);
+meForm.addEventListener('submit', showUser);
+ckMeContainer.addEventListener('click', (e) => {
+  const target = e.target.classList.contains('ck-me-container');
+
+  if (target) {
+    showUserBox();
+  }
+});
+cancelBtns.forEach((el) => {
+  el.addEventListener('click', cancelEdit);
+});

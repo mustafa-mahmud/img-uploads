@@ -15,6 +15,44 @@
 	</head>
 
 	<body>
+
+		<button class="ck-me btn btn-dark text-white">Check Me</button>
+		<div class="ck-me-container d-flex justify-content-center align-items-center">
+			<div class="ck-me-content d-flex flex-column align-items-center col-md-4 col-sm-8 col-10 bg-white p-3">
+
+				<form class="row w-100 py-3 justify-content-center me-form bg-dark">
+					<div class="row">
+						<div class="col-md-6 col-12 mt-4">
+							<input required type="text" class="form-control" placeholder="User Name..." name="user-name" id="name">
+						</div>
+						<div class="col-md-6 col-12 mt-4 pass">
+							<input required type="password" class="form-control" placeholder="Password..." name="user-password"
+								id="password">
+							<i class="far fa-eye open-eye"></i>
+							<i class="fas fa-eye-slash close-eye"></i>
+						</div>
+						<div class="col-12 mt-4">
+							<button class="btn btn-success w-100 show-me">Show Me</button>
+						</div>
+					</div>
+				</form>
+
+				<p class="show-me-msg text-center mt-2"></p>
+
+				<div class="user-result p-5 bg-warning">
+					<div class="row col-md-8 justify-content-center align-items-center">
+						<div class="col-md-6">
+							<img class="img-thumbnail img-fluid" src="" alt="adil" />
+						</div>
+						<div class="col-md-6">
+							<p class="name">User Name : <span></span></p>
+							<p class="age">User Age : <span></span></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-md-8 col-12">
@@ -26,19 +64,19 @@
 			<form class="row justify-content-center insert-form" enctype="multipart/form-data">
 				<div class="col-md-8 col-12 row">
 					<div class="col-md-6 col-12 mt-4">
-						<input type="text" class="form-control" placeholder="Name..." name="name" id="name">
+						<input type="text" class="form-control" placeholder="Name..." name="insert-name" id="name">
 					</div>
 					<div class="col-md-6 col-12 mt-4">
-						<input type="text" class="form-control" placeholder="Age..." name="age" id="age">
+						<input type="text" class="form-control" placeholder="Age..." name="insert-age" id="age">
 					</div>
 					<div class="col-md-6 col-12 mt-4 pass">
-						<input type="password" class="form-control" placeholder="Password..." name="password" id="password">
+						<input type="password" class="form-control" placeholder="Password..." name="insert-password" id="password">
 						<i class="far fa-eye open-eye"></i>
 						<i class="fas fa-eye-slash close-eye"></i>
 					</div>
 					<div class="col-md-6 mt-4 col-12">
 						<div class="custom-file">
-							<input type="file" class="img-file" name="img-file" id="img-file">
+							<input type="file" class="img-file" name="insert-img-file" id="img-file">
 						</div>
 					</div>
 					<div class="col-12 mt-4">
@@ -74,12 +112,14 @@
 			<form class="row justify-content-center pass-change-form">
 				<div class="col-md-8 col-12 row">
 					<div class="col-md-6 col-12 mt-4 pass">
-						<input type="password" class="form-control" placeholder="Old Password..." name="password" id="password">
+						<input type="password" class="form-control" placeholder="Old Password..." name="old-password"
+							id="old-password">
 						<i class="far fa-eye open-eye"></i>
 						<i class="fas fa-eye-slash close-eye"></i>
 					</div>
 					<div class="col-md-6 col-12 mt-4 pass">
-						<input type="password" class="form-control" placeholder="New Password..." name="password" id="password">
+						<input type="password" class="form-control" placeholder="New Password..." name="new-password"
+							id="new-password">
 						<i class="far fa-eye open-eye"></i>
 						<i class="fas fa-eye-slash close-eye"></i>
 					</div>
