@@ -20,8 +20,6 @@ const inputFile = document.querySelector('input[name="img-file"]');
 //Table
 const table = document.querySelector('table');
 const tbodyEl = document.querySelector('tbody');
-const passEl = document.querySelector('.pass');
-const eyes = passEl.querySelectorAll('i');
 
 //Edit
 const editInputName = document.querySelector('input[name="edit-name"]');
@@ -29,6 +27,13 @@ const editInputAge = document.querySelector('input[name="edit-age"]');
 const editInputImg = document.querySelector('input[name="edit-img-file"]');
 const cancelBtn = document.querySelector('.cancel-btn');
 const editBtn = document.querySelector('.edit-btn');
+
+//Change Password
+const changePassForm = document.querySelector('.pass-change-form');
+
+//Eye
+const openEye = document.querySelectorAll('.open-eye');
+const closeEye = document.querySelectorAll('.close-eye');
 
 function insertValidation(e) {
   e.preventDefault();
@@ -107,9 +112,17 @@ function displayUI(datas) {
 
   const dels = tbodyEl.querySelectorAll('.delete');
   const edits = tbodyEl.querySelectorAll('.edit');
+  const pass = tbodyEl.querySelectorAll('.change-password');
 
   dels.forEach((del) => del.addEventListener('click', idCheck));
   edits.forEach((edit) => edit.addEventListener('click', editCheck));
+  pass.forEach((edit) => edit.addEventListener('click', passCheck));
+}
+
+function passCheck(e) {
+  insertForm.style.display = 'none';
+  editForm.style.display = 'none';
+  changePassForm.style.display = 'flex';
 }
 
 function idCheck(e) {
@@ -172,16 +185,6 @@ async function deleteUser(id, src) {
   }
 }
 
-function eyeToggle() {
-  passEl.classList.toggle('show');
-
-  if (passEl.classList.contains('show')) {
-    inputPassword.type = 'text';
-  } else {
-    inputPassword.type = 'password';
-  }
-}
-
 function cancelEdit(e = null) {
   e?.preventDefault();
 
@@ -233,9 +236,22 @@ async function editData(datas) {
   }
 }
 
+function eyeToggle(e) {
+  console.log(123);
+  const target = e.target.closest('.pass');
+  target.classList.toggle('show');
+
+  if (target.classList.contains('show')) {
+    target.querySelector('input').type = 'text';
+  } else {
+    target.querySelector('input').type = 'password';
+  }
+}
+
 /////////////////
 read();
 insertForm.addEventListener('submit', insertValidation);
-eyes.forEach((eye) => eye.addEventListener('click', eyeToggle));
 cancelBtn.addEventListener('click', cancelEdit);
 editForm.addEventListener('submit', editValidation);
+openEye.forEach((eye) => eye.addEventListener('click', eyeToggle));
+closeEye.forEach((eye) => eye.addEventListener('click', eyeToggle));

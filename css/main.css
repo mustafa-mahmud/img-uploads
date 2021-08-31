@@ -45,6 +45,10 @@ body {
   display: none;
 }
 
+.pass-change-form {
+  display: none;
+}
+
 .custom-file input {
   width: 100%;
 }
