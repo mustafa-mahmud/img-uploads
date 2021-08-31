@@ -51,7 +51,7 @@ function imgValidation($img) {
     $temp = $img['tmp_name'];
     $validType = ['jpg', 'jpeg', 'png', 'gif'];
 
-    if (!$error || $img === false) {
+    if (!$error) {
       $type = explode('/', $type);
       $name = explode('.', $name);
       $type = end($type);

@@ -30,3 +30,73 @@ body {
   height: 25px;
   color: transparent;
 }
+
+.table {
+  display: none;
+}
+
+.insert {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.edit-form {
+  display: none;
+}
+
+.custom-file input {
+  width: 100%;
+}
+
+.pass .show .fa-eye {
+  display: inline-block;
+}
+
+.pass .show .fa-eye-slash {
+  display: none;
+}
+
+.pass {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.pass input {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  border-right: transparent;
+  padding-right: 35px;
+}
+
+.pass i {
+  width: 30px;
+  border: 1px solid;
+  height: 26px;
+  line-height: 20px;
+  border: 2px solid;
+  border-left: transparent;
+  margin-left: -30px;
+  cursor: pointer;
+}
+
+.pass .fa-eye {
+  display: none;
+}
+
+.pass .fa-eye-slash {
+  display: inline-block;
+}
+
+.pass.show .fa-eye {
+  display: inline-block;
+}
+
+.pass.show .fa-eye-slash {
+  display: none;
+}

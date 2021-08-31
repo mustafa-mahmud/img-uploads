@@ -8,6 +8,7 @@
 		<title>Image Uploads</title>
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 		<link rel="stylesheet" href="css/bootstrap.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
 
 		<link rel="stylesheet" href="css/main.css" />
 		<script defer type="module" src="js/app.js"></script>
@@ -21,7 +22,8 @@
 					<p class="msg">Your message here...</p>
 				</div>
 			</div>
-			<form class="row justify-content-center insert" enctype="multipart/form-data">
+			<!-- Insert -->
+			<form class="row justify-content-center insert-form" enctype="multipart/form-data">
 				<div class="col-md-8 col-12 row">
 					<div class="col-md-6 col-12 mt-4">
 						<input type="text" class="form-control" placeholder="Name..." name="name" id="name">
@@ -29,8 +31,10 @@
 					<div class="col-md-6 col-12 mt-4">
 						<input type="text" class="form-control" placeholder="Age..." name="age" id="age">
 					</div>
-					<div class="col-md-6 col-12 mt-4">
+					<div class="col-md-6 col-12 mt-4 pass">
 						<input type="password" class="form-control" placeholder="Password..." name="password" id="password">
+						<i class="far fa-eye"></i>
+						<i class="fas fa-eye-slash"></i>
 					</div>
 					<div class="col-md-6 mt-4 col-12">
 						<div class="custom-file">
@@ -39,6 +43,29 @@
 					</div>
 					<div class="col-12 mt-4">
 						<button class="btn btn-success w-100">Insert Me</button>
+					</div>
+				</div>
+			</form>
+
+			<!-- Edit -->
+			<form class="row justify-content-center edit-form" enctype="multipart/form-data">
+				<div class="col-md-8 col-12 row">
+					<div class="col-md-6 col-12 mt-4">
+						<input type="text" class="form-control" placeholder="Name..." name="edit-name" id="name">
+					</div>
+					<div class="col-md-6 col-12 mt-4">
+						<input type="text" class="form-control" placeholder="Age..." name="edit-age" id="age">
+					</div>
+					<div class="col-md-6 mt-4 col-12">
+						<div class="custom-file">
+							<input type="file" class="img-file" name="edit-img-file" id="img-file">
+						</div>
+					</div>
+					<div class="col-md-3 col-12 mt-4">
+						<button class="btn btn-success w-100 edit-btn">Edit Me</button>
+					</div>
+					<div class="col-md-3 col-12 mt-4">
+						<button class="btn btn-dark w-100 cancel-btn">Cancel</button>
 					</div>
 				</div>
 			</form>

@@ -9,15 +9,28 @@ import {
   clearAll,
 } from './form-validation.js';
 
-const form = document.querySelector('form');
+//Insert
+const insertForm = document.querySelector('.insert-form');
+const editForm = document.querySelector('.edit-form');
 const inputName = document.querySelector('input[name="name"]');
 const inputAge = document.querySelector('input[name="age"]');
 const inputPassword = document.querySelector('input[name="password"]');
 const inputFile = document.querySelector('input[name="img-file"]');
+
+//Table
 const table = document.querySelector('table');
 const tbodyEl = document.querySelector('tbody');
+const passEl = document.querySelector('.pass');
+const eyes = passEl.querySelectorAll('i');
 
-function formValidation(e) {
+//Edit
+const editInputName = document.querySelector('input[name="edit-name"]');
+const editInputAge = document.querySelector('input[name="edit-age"]');
+const editInputImg = document.querySelector('input[name="edit-img-file"]');
+const cancelBtn = document.querySelector('.cancel-btn');
+const editBtn = document.querySelector('.edit-btn');
+
+function insertValidation(e) {
   e.preventDefault();
 
   const name = inputName.value.trim();
@@ -32,9 +45,9 @@ function formValidation(e) {
     imgValidation(imgFile, inputFile)
   ) {
     message('green', 'Everything is okay, Please wait...');
-    const formData = new FormData(form);
+    const formData = new FormData(insertForm);
 
-    if (form.classList.contains('insert')) insertData(formData);
+    if (insertForm.classList.contains('insert-form')) insertData(formData);
   }
 }
 
@@ -75,13 +88,13 @@ function displayUI(datas) {
   datas.forEach((el, ind) => {
     const html = `
 		<tr id="${el.id}">
-			<td>${ind + 1}</td>
-			<td>${el.name}</td>
-			<td>${el.age}</td>
-			<td>
+			<td class="sl">${ind + 1}</td>
+			<td class="name">${el.name}</td>
+			<td class="age">${el.age}</td>
+			<td class="imgs">
 				<img width="50" height="30" src="uploads/${el.img}" alt="${el.name}" />
 			</td>
-			<td>
+			<td class="action">
 				<span class="change-password">Change Password</span> |
 				<span class="edit">Edit</span> |
 				<span class="delete">Delete</span>
@@ -93,8 +106,10 @@ function displayUI(datas) {
   });
 
   const dels = tbodyEl.querySelectorAll('.delete');
+  const edits = tbodyEl.querySelectorAll('.edit');
 
   dels.forEach((del) => del.addEventListener('click', idCheck));
+  edits.forEach((edit) => edit.addEventListener('click', editCheck));
 }
 
 function idCheck(e) {
@@ -110,6 +125,38 @@ function idCheck(e) {
   }
 }
 
+function editCheck(e) {
+  insertForm.style.display = 'none';
+  editForm.style.display = 'flex';
+
+  window.targetTr = e.target.closest('tr');
+  const userName = targetTr.querySelector('.name').textContent;
+  const age = targetTr.querySelector('.age').textContent;
+  window.oldImg = targetTr.querySelector('img').getAttribute('src');
+  window.editId = +targetTr.id;
+
+  clearBorder();
+
+  targetTr.querySelectorAll('td').forEach((td) => {
+    td.style.borderTop = '1px solid red';
+    td.style.borderBottom = '1px solid red';
+  });
+
+  display4Edit(userName, age);
+}
+
+function clearBorder() {
+  tbodyEl.querySelectorAll('td').forEach((td) => {
+    td.style.borderTop = 'none';
+    td.style.borderBottom = 'none';
+  });
+}
+
+function display4Edit(userName, age) {
+  editInputName.value = userName;
+  editInputAge.value = age;
+}
+
 async function deleteUser(id, src) {
   const res = await fetch('./php/delete.php', {
     method: 'post',
@@ -117,7 +164,6 @@ async function deleteUser(id, src) {
   });
 
   const data = await res.text();
-  console.log(data);
   if (data.includes('successfully')) {
     message('green', 'Delete Successfully');
     read();
@@ -126,6 +172,70 @@ async function deleteUser(id, src) {
   }
 }
 
+function eyeToggle() {
+  passEl.classList.toggle('show');
+
+  if (passEl.classList.contains('show')) {
+    inputPassword.type = 'text';
+  } else {
+    inputPassword.type = 'password';
+  }
+}
+
+function cancelEdit(e = null) {
+  e?.preventDefault();
+
+  insertForm.style.display = 'flex';
+  editForm.style.display = 'none';
+
+  editInputName.value = editInputAge.value = editInputImg.value = '';
+}
+
+function editValidation(e) {
+  e.preventDefault();
+
+  const name = editInputName.value.trim();
+  const age = editInputAge.value.trim();
+  const imgFile = editInputImg.files[0];
+
+  if (
+    nameValidation(name, editInputName) &&
+    ageValidation(age, editInputAge) &&
+    imgFile
+      ? imgValidation(imgFile, editInputImg)
+      : true
+  ) {
+    message('green', 'Everything is okay, Please wait...');
+    const formData = new FormData(editForm);
+    formData.append('id', editId);
+    formData.append('old-img', oldImg);
+
+    if (editForm.classList.contains('edit-form')) editData(formData);
+  }
+}
+
+async function editData(datas) {
+  const res = await fetch('./php/edit.php', {
+    method: 'post',
+    body: datas,
+  });
+
+  const data = await res.text();
+  console.log(data);
+
+  if (data.includes('successfully')) {
+    cancelEdit();
+    setTimeout(() => {
+      read();
+    }, 1500);
+  } else {
+    message('red', 'Something wrong, Please try again...');
+  }
+}
+
 /////////////////
 read();
-form.addEventListener('submit', formValidation);
+insertForm.addEventListener('submit', insertValidation);
+eyes.forEach((eye) => eye.addEventListener('click', eyeToggle));
+cancelBtn.addEventListener('click', cancelEdit);
+editForm.addEventListener('submit', editValidation);
